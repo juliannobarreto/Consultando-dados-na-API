@@ -11,7 +11,33 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        if let url = URL(string: "https://reqres.in/api/users") {
+            
+            let tarefa = URLSession.shared.dataTask(with: url) { dados, requisicao, erro in
+                
+                if erro == nil {
+                    if let dadosRetorno = dados {
+                        
+                        do {
+                            
+                            let objetoJson = try JSONSerialization.jsonObject(with: dadosRetorno, options: [])
+                            print(objetoJson)
+                            
+                        } catch  {
+                            print("Erro ao consultar o retorno!")
+                        }
+                    }
+                    
+                    print("Consulta com sucesso!")
+                }else{
+                    print("Erro ao consultar!")
+                }
+            }
+            tarefa.resume()
+        }
+        
+
     }
 
 
